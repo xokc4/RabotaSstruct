@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace RabotaSstruct
 {
-    struct prime4anie
+    public class prime4anie
     {
+       
+       
+
         public DateTime date; // дата
 
         public string Surname; //  Фамилия
@@ -18,7 +21,8 @@ namespace RabotaSstruct
 
         public string Note; // примечание
 
-        public int ID;//  айди
+        public  int ID;//  айди
+        
 
         public void prime4(DateTime date, string Name, string Surname, string JobTitles, string Note, int ID)// способ работы с данными
         {
@@ -27,7 +31,7 @@ namespace RabotaSstruct
             this.Surname = Surname;
             this.JobTitles = JobTitles;
             this.Note = Note;
-            this.ID = ID++;
+            ID = ID++;
         }
         public string Print()// шаблон строки
         {

@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 
 namespace RabotaSstruct
 {
+    
     class Program
     {
+        
         static void Main(string[] args)
         {
 
@@ -21,18 +25,11 @@ namespace RabotaSstruct
         {
 
 
-            if (!File.Exists(path))// условие. если нет папки то идет создание и запись первого замичания 
-            {
-                Console.WriteLine("Создаю файл");
-                File.Create(path);//папка по созданию файла
-            }
-            else
-            {
-                StreamWriter writer = new StreamWriter(path, true);// создания потока по добавлении в запись 
-                writer.Write("\n" +text);// запись в файл
-                writer.Close();//  закрытие потока
-            }
-        }//  метод по создании файла и записи в файл
+
+            StreamWriter writer = new StreamWriter(path, true);// создания потока по добавлении в запись 
+            writer.Write("\n" + text);// запись в файл
+            writer.Close();//  закрытие потока
+        }
         public static void Delete(string path)
         {
             Console.WriteLine("Чтобы удалить строчку напишите Delete1, чтобы удалить все напишите all Delete.");
@@ -117,7 +114,29 @@ namespace RabotaSstruct
         }// метод по началы работы и выбор функций
         public static void addingСomments(string path)
         {
-            int ID = 0;//  переменная айди
+            int ID = 0;
+            if (!File.Exists(path))// условие. если нет папки то идет создание и запись первого замичания 
+            {
+                Console.WriteLine("Создал файл");
+                File.Create(path);
+                ID = 1;// в первой строке айди ровна 1
+            }
+            else
+            {
+                string[] str = File.ReadAllLines(path);// массив строк  
+                if (str.Length == 0)
+                {
+                    ID++;
+                }
+                else
+                {
+                    char[] separtors = " \r\n\"',".ToCharArray(); // Строка сепараторов
+                    string[] ave = str[str.Length - 1].Split(separtors);//последнняя строка с разбивом символов в массив
+                    ID = int.Parse(ave[1]);//конверт символа в инт
+                    ID++;//увеличение айди на 1
+                }
+            }
+
             Console.WriteLine("Введите имя");
             string Name = Console.ReadLine();// переменная имени
             Console.WriteLine("Введите Фамилию");
@@ -126,9 +145,9 @@ namespace RabotaSstruct
             string JobTitles = Console.ReadLine();// переменная названии
             Console.WriteLine("Напишите примечание");
             string Note = Console.ReadLine();// переменная примечанию
-            ID++;
-            int count =+ ID;
             
+
+
             prime4anie prime4Anie = new prime4anie() // добавления данных
             {
 
@@ -137,7 +156,7 @@ namespace RabotaSstruct
                 Surname = Surname,
                 JobTitles = JobTitles,
                 Note = Note,
-                ID = count,
+                ID = ID,
             };
         
             Console.WriteLine(prime4Anie.Print());
